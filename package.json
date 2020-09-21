@@ -1,12 +1,22 @@
 {
   "name": "tinymce-text",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "lib/vue-tinymce-text.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name vue-tinymce-text --dest lib package/index.js",
+    "release": "npm run lib && npm publish --registry https://registry.npmjs.org/"
   },
+  "description": "Vue component for rich text editor base on Tinymce",
+  "keywords": [
+    "rich text",
+    "tinymce",
+    "vue"
+  ],
+  "author": "pengxianggui",
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
@@ -18,6 +28,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -38,5 +50,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
+  ],
+  "files": [
+    "/lib/",
+    "README.md"
   ]
 }

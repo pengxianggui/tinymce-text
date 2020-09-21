@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <tinymce-text v-model="value" :menubar="true"></tinymce-text>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import TinymceText from "../package/TinymceText";
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: {TinymceText},
+  data() {
+    return {
+      value: ''
+    }
   }
 }
 </script>
