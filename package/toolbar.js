@@ -2,8 +2,9 @@
 // Detail list see https://www.tinymce.com/docs/advanced/editor-control-identifiers/#toolbarcontrols
 
 // searchreplace code
-const toolbar = ['bold italic underline strikethrough alignleft aligncenter alignright outdent indent' +
-'  blockquote undo redo removeformat subscript superscript codesample hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons ' +
-'forecolor backcolor fullscreen']
+const toolbar = ['preview | undo redo | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright outdent indent' +
+' blockquote | removeformat subscript superscript | hr bullist numlist | table | link image media | codesample emoticons | ' +
+' pagebreak |' +
+' fullscreen']
 
 export default toolbar
