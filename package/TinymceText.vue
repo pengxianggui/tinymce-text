@@ -1,9 +1,6 @@
 <template>
     <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
         <textarea :id="tinymceId" class="tinymce-textarea"/>
-        <!--        <div class="editor-custom-btn-container">-->
-        <!--      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />-->
-        <!--        </div>-->
     </div>
 </template>
 
@@ -16,6 +13,7 @@
     import plugins from './plugins'
     import toolbar from './toolbar'
     import load from './dynamicLoadScript'
+    import * as util from './util'
 
     // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
     const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
@@ -27,7 +25,7 @@
             id: {
                 type: String,
                 default: function () {
-                    return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
+                    return 'vue-tinymce-' + new Date().getTime() + ((Math.random() * 10000).toFixed(0) + '')
                 }
             },
             value: {
@@ -54,6 +52,13 @@
                 type: [Number, String],
                 required: false,
                 default: 'auto'
+            },
+            config: {
+                type: Object,
+                required: false,
+                default() {
+                    return {}
+                },
             }
         },
         data() {
@@ -104,24 +109,25 @@
         methods: {
             init() {
                 // dynamic load tinymce from cdn
+                const _this = this
                 load(tinymceCDN, (err) => {
                     if (err) {
-                        this.$message.error(err.message)
+                        _this.$message.error(err.message)
                         return
                     }
-                    this.initTinymce()
+                    _this.initTinymce()
                 })
             },
             initTinymce() {
                 const _this = this
-                window.tinymce.init({
-                    selector: `#${this.tinymceId}`,
-                    language: this.languageTypeList['en'],
-                    height: this.height,
+                let options = {
+                    selector: `#${_this.tinymceId}`,
+                    language: _this.languageTypeList['en'],
+                    height: _this.height,
                     body_class: 'panel-body ',
                     object_resizing: false,
-                    toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
-                    menubar: this.menubar,
+                    toolbar: _this.toolbar.length > 0 ? _this.toolbar : toolbar,
+                    menubar: _this.menubar,
                     plugins: plugins,
                     end_container_on_empty_block: true,
                     powerpaste_word_import: 'clean',
@@ -134,19 +140,19 @@
                     link_title: false,
                     nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
                     init_instance_callback: editor => {
-                        if (_this.value) {
-                            editor.setContent(_this.value)
-                        }
-                        _this.hasInit = true
-                        editor.on('NodeChange Change KeyUp SetContent', () => {
-                            this.hasChange = true
-                            this.$emit('input', editor.getContent())
-                        })
+                      if (_this.value) {
+                        editor.setContent(_this.value)
+                      }
+                      _this.hasInit = true
+                      editor.on('NodeChange Change KeyUp SetContent', () => {
+                        _this.hasChange = true
+                        _this.$emit('input', editor.getContent())
+                      })
                     },
                     setup(editor) {
-                        editor.on('FullscreenStateChanged', (e) => {
-                            _this.fullscreen = e.state
-                        })
+                      editor.on('FullscreenStateChanged', (e) => {
+                        _this.fullscreen = e.state
+                      })
                     },
                     // it will try to keep these URLs intact
                     // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
@@ -185,7 +191,9 @@
                     //     console.log(err);
                     //   });
                     // },
-                })
+                }
+                util.merge(options, _this.config)
+                window.tinymce.init(options)
             },
             destroyTinymce() {
                 const tinymce = window.tinymce.get(this.tinymceId)
@@ -202,9 +210,6 @@
             },
             getContent() {
                 window.tinymce.get(this.tinymceId).getContent()
-            },
-            imageSuccessCBK(arr) {
-                arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
             }
         }
     }

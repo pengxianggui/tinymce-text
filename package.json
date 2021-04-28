@@ -1,6 +1,6 @@
 {
   "name": "vue-tinymce-text",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "main": "lib/vue-tinymce-text.common.js",
   "scripts": {
@@ -19,7 +19,8 @@
   "author": "pengxianggui",
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "lodash": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

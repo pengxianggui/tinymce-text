@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <tinymce-text v-model="value" :menubar="true"></tinymce-text>
+    <tinymce-text v-model="value" :config="conf"></tinymce-text>
   </div>
 </template>
 
@@ -11,7 +11,9 @@ export default {
   components: {TinymceText},
   data() {
     return {
-      value: ''
+      value: '',
+      conf: {
+      }
     }
   }
 }
