@@ -1,6 +1,11 @@
 # tinymce-text
 
-基于vue 和 Tinymce封装的一个富文本编辑框
+基于vue 和 Tinymce封装的一个富文本编辑框。
+
+## 使用方法
+见 src/App.vue
+
+你可以向TinymceText组件传入更多的配置以覆盖其中的tinymce配置。
 
 ## changelog
 
