@@ -134,7 +134,6 @@ export default {
         height: _this.height,
         body_class: 'panel-body ',
         object_resizing: false,
-        images_upload_url: 'https://api.asoco.com.cn/oss/upload?bucketName=test',
 
         toolbar: _this.toolbar.length > 0 ? _this.toolbar : toolbar,
         menubar: _this.menubar.length > 0 ? _this.menubar : menubar,
@@ -203,7 +202,7 @@ export default {
         //   });
         // },
       }
-      util.merge(options, _this.config)
+      util.reverseMerge(options, _this.config)
       window.tinymce.init(options)
     },
     destroyTinymce() {
@@ -259,5 +258,10 @@ export default {
 
 .editor-upload-btn {
   display: inline-block;
+}
+</style>
+<style lang="scss">
+.tox.tox-tinymce-aux {
+  z-index: 5000;
 }
 </style>
