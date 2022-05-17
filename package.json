@@ -1,6 +1,6 @@
 {
   "name": "vue-tinymce-text",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "private": false,
   "main": "lib/vue-tinymce-text.common.js",
   "scripts": {
