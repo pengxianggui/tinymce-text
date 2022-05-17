@@ -74,10 +74,10 @@ export function reverseMerge(opt1, opt2, deep = true, ignoreNullAndUndefined = f
                 if (isObject(valueOfObj1) && isObject(valueOfObj2) && deep) {
                     deepMerge(valueOfObj1, valueOfObj2)
                 } else {
-                    set(reverseMerge.prototype.Vue, self, obj1, key, cloneDeep(valueOfObj2));
+                    set(self, obj1, key, cloneDeep(valueOfObj2));
                 }
             } else {
-                set(reverseMerge.prototype.Vue, self, obj1, key, cloneDeep(valueOfObj2));
+                set(self, obj1, key, cloneDeep(valueOfObj2));
             }
         }
     };
