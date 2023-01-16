@@ -45,30 +45,10 @@ export default function (callback, value, meta, tinymce, config) {
             } catch (err) {
                 console.error('expect result format is {"location": "the url of file"}')
             }
-            callback(json.location);
+            callback(json.location, {text: file.name});
         };
         formData = new FormData();
         formData.append('file', file, file.name);
         xhr.send(formData);
-
-
-        console.log(file.name)
-
-        // 下方是官方的一个例子
-        let reader = new FileReader();
-        reader.onload = function () {
-            // Note: Now we need to register the blob in TinyMCEs image blob
-            // registry. In the next release this part hopefully won't be
-            // necessary, as we are looking to handle it internally.
-            let id = 'blobid' + (new Date()).getTime();
-            let blobCache = tinymce.editorUpload.blobCache;
-            let base64 = reader.result.split(',')[1];
-            let blobInfo = blobCache.create(id, file, base64);
-            blobCache.add(blobInfo);
-
-            // call the callback and populate the Title field with the file name
-            callback(blobInfo.blobUri(), {text: file.name});
-        };
-        reader.readAsDataURL(file);
     };
 }
