@@ -4,14 +4,12 @@
   </div>
 </template>
 
+<!--<script src="./tinymce.min.js"></script>-->
 <script>
 /**
  * docs:
  * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
  */
-// import editorImage from './components/EditorImage'
-// import plugins from './plugins'
-// import toolbar from './toolbar'
 import {plugins, toolbar, menubar} from './config'
 import load from './dynamicLoadScript'
 import * as util from './util'
@@ -20,6 +18,8 @@ import * as util from './util'
 // const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 // const tinymceCDN = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.3/tinymce.min.js'
 const tinymceCDN = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.2/tinymce.min.js'
+// const tinymceCDN = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.2.0/tinymce.min.js'
+import filePickerCallback from "./js/filePickerCallback";
 
 export default {
   name: 'TinymceText',
@@ -115,7 +115,8 @@ export default {
   },
   methods: {
     init() {
-      // dynamic load tinymce from cdn
+      // TODO 此处运行时才动态获取tinymce，这个方式不好，如果tinymceCDN地址挂了，组件也挂了。最好使用
+      //  本地的js文件，已经下载好了: tinymce.min.js，但是怎么应用还需要探索下
       const _this = this
       load(tinymceCDN, (err) => {
         if (err) {
@@ -147,6 +148,25 @@ export default {
         advlist_number_styles: 'default',
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
+        file_picker_types: 'file image media', // 此选项可以通过空格或逗号分隔的类型名称指定允许上传的类型。目前只有三个可用的值：file、image和media
+        file_picker_callback: (callback, value, meta) => {
+          const tinymce = window.tinymce.get(this.tinymceId);
+          filePickerCallback(callback, value, meta, tinymce, this.config)
+        },
+        codesample_global_prismjs: true, // 应用本地prism文件(js和css)
+        codesample_languages: [
+          {text: 'Sql', value: 'sql'},
+          {text: 'Properties', value: 'properties'},
+          {text: 'HTML/XML', value: 'markup'},
+          {text: 'JavaScript', value: 'javascript'},
+          {text: 'CSS', value: 'css'},
+          {text: 'Java', value: 'java'},
+          {text: 'Python', value: 'python'},
+          {text: 'Ruby', value: 'ruby'},
+          {text: 'C', value: 'c'},
+          {text: 'C++', value: 'cpp'},
+          {text: 'PHP', value: 'php'}
+        ],
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: editor => {
@@ -168,39 +188,6 @@ export default {
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
         // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
         convert_urls: false
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
       }
       util.reverseMerge(options, _this.config)
       window.tinymce.init(options)

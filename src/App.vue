@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <tinymce-text v-model="value" :config="conf"></tinymce-text>
+
+    <div v-html="value"></div>
   </div>
 </template>
 
@@ -11,8 +13,10 @@ export default {
   components: {TinymceText},
   data() {
     return {
-      value: '',
+      value: null,
       conf: {
+        files_upload_url: '/file/upload/rich-text',
+        images_upload_url: '/file/upload/rich-text',
       }
     }
   }

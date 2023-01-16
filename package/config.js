@@ -1,6 +1,6 @@
 
 export const plugins = ['advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-    'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+    'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'codesample', 'fullscreen', 'insertdatetime',
     'media', 'table', 'emoticons', 'template', 'help'];
 
 export const toolbar = ['undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
